@@ -25,50 +25,53 @@ var ToDoSchema = new mongoose.Schema({
  * Model Type of ToDo
  */
 var ToDoModel = mongoose.model('ToDoModel', ToDoSchema)
-// creates item of type ToDo
-var todotest = new ToDoModel({item: 'todotest'}).save(function(err) {
-    if(err) throw err
-    console.log('item saved')
-})
 
 
 // middleware to run in post request to parse the request data from the client-side
 var urlencodedParser = bodyParser.urlencoded({extended: false})
 
 // stub for ajax requests, should come from the client side when submitting forms - see item obj in main.js
-var data = [
-    {item: 'item1'},
-    {item: 'item2'},
-    {item: 'item3'}
-]
+// var data = [
+//     {item: 'item1'},
+//     {item: 'item2'},
+//     {item: 'item3'}
+// ]
 
 
 /**
- * Controller starts here
+ * Controller code starts here
  */
 // set ups request handlers for our app - expecting requests from client side main.js
 module.exports = function(app) {
 
     // set up routes as toDoController() is called and passed down in app.js
     app.get('/todo', function(req, res) {
-        // pass data to the template engine for tDo view to be injected
-        res.render('todo', {toDos: data})
+        // get data from mongodb and pass it to the view with he template engine to be injected
+        // finds all the items in the collection returned in data
+        ToDoModel.find({}, function(err, data) {
+            if (err) throw err
+            res.render('todo', {toDos: data})
+        })
     })
 
     app.post('/todo', urlencodedParser, function(req, res) {
         // adds request body to the data array once parsed to add new items
         console.log('post request: ', req.body)
-        data.push(req.body)
-        // sends data back to the client as json
-        res.json(data)
+        // gets data from the view and add it to mongoDB from request.body
+        var newToDo = ToDoModel(req.body).save(function(err, data) {
+            if(err) throw err
+            // sends data back to the DB
+            res.json(data)
+        })
     })
 
     app.delete('/todo/:item', function(req, res) {
-        data = data.filter(function(todo) {
-            // if truthy remains in the array
-            return todo.item.replace(/ /g, '-') !== req.params.item
+        // deletes the requested item from DB - replaces hyphens with a space in the routes
+        ToDoModel.find({item: req.params.item.replace(/\-/g, " ")}).remove(function(err, data) {
+            if (err) throw err
+            // sends data back to the DB
+            res.json(data)
         })
-        res.json(data)
     })
 
 }
