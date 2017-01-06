@@ -7,9 +7,10 @@
     </head>
     <body>
     <h1>Todo List</h1>
+    <h2><%= username %> Todo List</h2>
         <div id="todo-table">
-            <form action="post">
-                <input type="text" name="item" placeholder="Add new item..." required />
+            <form id="todo_form" action="post">
+                <input id= "new_todo" type="text" name="item" placeholder="Add new item..." required />
                 <button type="submit">Add item</button>
             </form>
         </div>

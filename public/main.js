@@ -3,9 +3,11 @@
  */
 $(document).ready(function(){
 
-    $('form').on('submit', function(){
+    var USER = window.USER = 'UNKNOWN'
 
-        var item = $('form input')
+    $('#todo_form').on('submit', function(){
+
+        var item = $('input#new_todo')
         var todo = {item: item.val()}
 
         $.ajax({
@@ -15,6 +17,7 @@ $(document).ready(function(){
             // crossDomain: true,
             data: todo,
             success: function(data){
+                console.log(data)
                 location.reload()
             }
         })
@@ -29,8 +32,32 @@ $(document).ready(function(){
             type: 'DELETE',
             url: '/todo/' + item,
             success: function(data){
+                console.log(data)
                 // reloads the page once the item is added...
                 //todo do something with the data via front-end framework
+                location.reload()
+            }
+        })
+    })
+
+    $('#register_form').on('submit', function() {
+        // creates a username to send to the server
+        var username = $('input[name="username"]').val()
+        var password = $('input[name="password"]')
+
+        USER = username
+
+        var user = {
+            username: USER,
+            password: password.val()
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/register',
+            data: user,
+            success: function(data) {
+                console.log(data)
+
                 location.reload()
             }
         })

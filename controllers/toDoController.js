@@ -25,6 +25,10 @@ var ToDoSchema = new mongoose.Schema({
  * Model Type of ToDo
  */
 var ToDoModel = mongoose.model('ToDoModel', ToDoSchema)
+// var testTodo = new ToDoModel({item: 'testTodo'})
+//     .save(function(err) {
+//         if(err) throw err
+//     })
 
 
 // middleware to run in post request to parse the request data from the client-side
@@ -39,29 +43,31 @@ var urlencodedParser = bodyParser.urlencoded({extended: false})
 
 
 /**
- * Controller code starts here
+ * Controller starts here
  */
 // set ups request handlers for our app - expecting requests from client side main.js
 module.exports = function(app) {
 
     // set up routes as toDoController() is called and passed down in app.js
-    app.get('/todo', function(req, res) {
+    app.get('/todo/:username', function(req, res) {
         // get data from mongodb and pass it to the view with he template engine to be injected
         // finds all the items in the collection returned in data
         ToDoModel.find({}, function(err, data) {
             if (err) throw err
-            res.render('todo', {toDos: data})
+            res.render('todo', {username: req.params.username, toDos: data})
         })
     })
 
     app.post('/todo', urlencodedParser, function(req, res) {
         // adds request body to the data array once parsed to add new items
-        console.log('post request: ', req.body)
+        console.log('POST request: ', req.body)
         // gets data from the view and add it to mongoDB from request.body
-        var newToDo = ToDoModel(req.body).save(function(err, data) {
-            if(err) throw err
-            // sends data back to the DB
-            res.json(data)
+        var newToDo = ToDoModel(req.body)
+            .save(function(err, data) {
+                if(err) throw err
+                console.log(data,' added to the server')
+                // sends data back to the DB
+                res.json(data)
         })
     })
 

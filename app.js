@@ -4,6 +4,7 @@
 var express = require('express')
 
 var toDoController = require('./controllers/toDoController')
+var registerController = require('./controllers/registerController')
 
 /**
  * app config
@@ -33,6 +34,7 @@ app.use(function(req, res, next) {
  * Fires controllers
  */
 toDoController(app)
+registerController(app)
 
 
 // listen to port
