@@ -3,6 +3,6 @@
  */
 
 module.exports = {
-    user: 'test',
-    password: 'test'
+    user: 'user1',
+    password: 'user1'
 }
