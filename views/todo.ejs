@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Todo List</title>
+        <!--<script src="https://code.jquery.com/jquery-.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>-->
+        <!-- public dir is served as static files with the middleware-->
+        <link rel="stylesheet" href="/assets/styles.css" type="text/css">
+    </head>
+    <body>
+    <h1>Todo List</h1>
+        <div id="todo-table">
+            <form action="post">
+                <input type="text" name="item" placeholder="Add new item..." required />
+                <button type="submit">Add item</button>
+            </form>
+        </div>
+        <ul>
+            <% for(var i = 0; i < toDos.length; i++) { %>
+                <!-- .item comes from the view (form input) client-side when submitting the form, todo var {item:}-->
+                <li><%= toDos[i].item %></li>
+            <% } %>
+        </ul>
+    <script
+            src="https://code.jquery.com/jquery-1.12.4.js"
+            integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+            crossorigin="anonymous"></script>
+    <script src="/main.js"></script>
+    </body>
+</html>
