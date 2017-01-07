@@ -7,6 +7,11 @@ var path = require('path')
 //todo switch to redis for memory cache, etc..
 var session = require('express-session')
 var bodyParser = require('body-parser')
+
+// routes
+var birds = require('./routes/birds')
+
+// controllers
 var toDoController = require('./controllers/toDoController')
 var registerController = require('./controllers/registerController')
 
@@ -19,12 +24,17 @@ var VIEWS = 'views'
 var staticFiles = 'public'
 var secret = require('./config/tokens/secret')
 
-
 /**
  *  START APP CODE
 */
 // creates server
 var app = express()
+
+/**
+ * App Routes
+ */
+// route handles bird and about
+app.use('/birds', birds)
 
 // set up view engine for server-side rendering using ejs templating
 app.set('views', path.join(__dirname, VIEWS))
