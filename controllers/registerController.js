@@ -28,7 +28,7 @@ module.exports = function(app) {
 
     var USER_SESSION;
 
-    app.post('/register', urlencodedParser, function(req, res) {
+    app.post('/register', function(req, res) {
         console.log('body ', req.body)
         // gets the details from the route
         var username = req.body.username
@@ -56,7 +56,7 @@ module.exports = function(app) {
     /**
      * Authentication - Choosing POST request as we are creating credentials
     */
-    app.post('/login', urlencodedParser, function(req, res) {
+    app.post('/login', function(req, res) {
         var isUserLogged = req.body.username
         var isCorrectPassword = req.body.password
 

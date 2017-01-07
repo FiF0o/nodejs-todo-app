@@ -56,6 +56,8 @@ app.use(express.static(path.join(__dirname, staticFiles)))
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 // creates application/json parser and tell the app to us it
 app.use(bodyParser.json())
+app.use(urlencodedParser)
+
 // // parse application/json
 // app.use(function (req, res) {
 //     res.setHeader('Content-Type', 'text/plain')
