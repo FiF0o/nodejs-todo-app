@@ -55,6 +55,7 @@ module.exports = function(app) {
         ToDoModel.find({}, function(err, data) {
             if (err) throw err
             res.render('todo', {username: req.params.username, toDos: data})
+
         })
     })
 
