@@ -6,6 +6,7 @@ var path = require('path')
 // persists data
 //todo switch to redis for memory cache, etc..
 var session = require('express-session')
+var bodyParser = require('body-parser')
 var toDoController = require('./controllers/toDoController')
 var registerController = require('./controllers/registerController')
 
@@ -40,6 +41,17 @@ app.set('view engine', 'ejs')
 */
 //app.use(express.static('./public'))
 app.use(express.static(path.join(__dirname, staticFiles)))
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+// creates application/json parser and tell the app to us it
+app.use(bodyParser.json())
+// // parse application/json
+// app.use(function (req, res) {
+//     res.setHeader('Content-Type', 'text/plain')
+//     res.write('you posted:\n')
+//     res.end(JSON.stringify(req.body, null, 2))
+// })
 
 // allows Cors - requests from other services
 app.use(function(req, res, next) {
