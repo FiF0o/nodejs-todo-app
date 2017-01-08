@@ -1,0 +1,2 @@
+- add bodyparser global
+- add cookieparser to store var in session

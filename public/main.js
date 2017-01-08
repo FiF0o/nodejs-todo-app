@@ -63,26 +63,47 @@ $(document).ready(function(){
         })
     })
 
-    // $('#login_form').on('submit', function() {
-    //
-    //     var username = $('input[name="username"]').val()
-    //     var password = $('input[name="password"]')
-    //
-    //     USER = username
-    //
-    //     var user = {
-    //         username: USER,
-    //         password: password.val()
-    //     }
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/login',
-    //         data: user,
-    //         success: function(data) {
-    //             console.log(data)
-    //             location.reload()
-    //         }
-    //     })
-    // })
+    $('#login_form').on('submit', function() {
+
+        var username = $('input[name="username"]').val()
+        var password = $('input[name="password"]')
+
+        USER = username
+
+        var user = {
+            username: USER,
+            password: password.val()
+        }
+        $.ajax({
+            // triggers a post request to query the DB for authentication
+            type: 'POST',
+            url: '/login',
+            data: user,
+            success: function(data) {
+                console.log(data)
+
+                //todo fix...
+                location.href = "https://www.google.com"
+            }
+        })
+    })
+
+    $('#toto').on('submit', function() {
+        // creates a username to send to the server
+        var toto = $('input[name="toto"]').val()
+
+        var data = {
+            toto: toto.val()
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/dashboard',
+            data: data,
+            success: function(data) {
+                location.reload()
+            }
+        })
+    })
+
 
 })
