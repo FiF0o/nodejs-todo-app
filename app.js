@@ -3,13 +3,15 @@
  */
 var express = require('express')
 var path = require('path')
+var morgan = require('morgan')
 // persists data
 //todo switch to redis for memory cache, etc..
 var session = require('express-session')
 var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 
 // routes
-var birds = require('./routes/birds')
+var dashboard = require('./routes/dashboard')
 
 // controllers
 var toDoController = require('./controllers/toDoController')
@@ -24,17 +26,9 @@ var VIEWS = 'views'
 var staticFiles = 'public'
 var secret = require('./config/tokens/secret')
 
-/**
- *  START APP CODE
-*/
 // creates server
 var app = express()
 
-/**
- * App Routes
- */
-// route handles bird and about
-app.use('/birds', birds)
 
 // set up view engine for server-side rendering using ejs templating
 app.set('views', path.join(__dirname, VIEWS))
@@ -43,22 +37,32 @@ app.set('view engine', 'ejs')
 
 /**
  * MIDDLEWARES
+ * Order matters for import
  * extending the app and are available when making requests and responses
  */
+//logger
+app.use(morgan('dev'))
+// parses every cookies
+app.use(cookieParser())
+// registers session to our app to persists data
+app.use(session({
+    secret: secret.session,
+    resave: false,
+    saveUninitialized: true
+}))
 /*
  middleware serves static files when routing to public access route and accessing website routes
  mapped public dir to /assets
 */
-//app.use(express.static('./public'))
 app.use(express.static(path.join(__dirname, staticFiles)))
 
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-// creates application/json parser and tell the app to us it
-app.use(bodyParser.json())
 app.use(urlencodedParser)
+// tell the app to us the application/json parser
+app.use(bodyParser.json())
 
-// // parse application/json
+// // parse application/json example
 // app.use(function (req, res) {
 //     res.setHeader('Content-Type', 'text/plain')
 //     res.write('you posted:\n')
@@ -72,14 +76,13 @@ app.use(function(req, res, next) {
     next();
 });
 
-// registers session to our app to persists data
-app.use(session({
-    secret: secret.session,
-    resave: false,
-    saveUninitialized: true
-}))
 
-//todo add bodyparser as a middleware here instead of controllers
+/**
+ * App Routes
+ * must be preceded by middleware otherwise bug might occurs
+*/
+ // route handles bird and about
+app.use('/dashboard', dashboard, urlencodedParser)
 
 
 /**

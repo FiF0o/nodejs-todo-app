@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Todo List</title>
+    <!-- public dir is served as static files with the middleware-->
+    <!--<link rel="stylesheet" href="/assets/styles.css" type="text/css">-->
+</head>
+<body>
+<h1>Dashboard</h1>
+<section>
+    <h2>Todo List</h2>
+    <a href="/todo/<%=cookie_user%>">my todo list</a>
+    <p><%= data.toto %></p> or this way
+    <p><%= toto %></p>
+</section>
+<section>
+    <form id="toto" action="post">
+        <input type="text" name="toto" placeholder="toto" required />
+        <button id="register_button" type="submit">register</button>
+    </form>
+</section>
+<script
+        src="https://code.jquery.com/jquery-1.12.4.js"
+        integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+<script src="/main.js"></script>
+</body>
+</html>

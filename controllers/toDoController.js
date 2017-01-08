@@ -59,19 +59,20 @@ module.exports = function(app) {
         })
     })
 
-    app.post('/todo', urlencodedParser, function(req, res) {
+    app.post('/todo', function(req, res) {
         // adds request body to the data array once parsed to add new items
         console.log('POST request: ', req.body)
         // gets data from the view and add it to mongoDB from request.body
         var newToDo = ToDoModel(req.body)
             .save(function(err, data) {
                 if(err) throw err
-                console.log(data,' added to the server')
+                console.log(data,'ADDED to the DB')
                 // sends data back to the DB
                 res.json(data)
         })
     })
 
+    //todo fix routing and make validation for items not be empty strings
     app.delete('/todo/:item', function(req, res) {
         // deletes the requested item from DB - replaces hyphens with a space in the routes
         ToDoModel.find({item: req.params.item.replace(/\-/g, " ")}).remove(function(err, data) {

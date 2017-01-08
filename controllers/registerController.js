@@ -1,9 +1,6 @@
 /**
  * Created by jonlazarini on 06/01/17.
  */
-var express = require('express');
-// var router = express.Router()
-var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 
 // var creds = require('../config/tokens/creds')
@@ -21,12 +18,13 @@ var UserModel = mongoose.model('UserModel', UserSchema)
 //     })
 
 
-var urlencodedParser = bodyParser.urlencoded({extended: false})
-
-
 module.exports = function(app) {
 
     var USER_SESSION;
+
+    app.get('/login', function(req, res) {
+        res.render('login')
+    })
 
     app.post('/register', function(req, res) {
         console.log('body ', req.body)
@@ -43,8 +41,9 @@ module.exports = function(app) {
                 console.log(err)
                 return res.status(500).send()
             }
+            console.log('REGISTERED: ', newUser)
+            console.log(newUser.username, ' has signed up')
             return res.status(200).send()
-            console.log('new user saved: ', newUser)
         })
     })
 
@@ -71,20 +70,19 @@ module.exports = function(app) {
             }
             // stores user in the session
             req.session.user = user
-            // reassigns session to the global
+            // reassigns session to the global to be available
             USER_SESSION = user
 
             console.log('FOUND: ', user)
             console.log(USER_SESSION.username, ' is logged in')
             return res.status(200).send()
+            // return res.redirect('/dashboard')
         })
     })
 
-    // app.get('/login', function(req, res) {
-    //     res.render('login')
-    // })
-
+    // protected page where a session is required
     app.get('/test', function(req, res) {
+
         // user is not authenticated, POST /login request failed
         if(USER_SESSION === undefined) {
             return res.status(401).send()
@@ -92,5 +90,15 @@ module.exports = function(app) {
         // returns the page
         return res.status(200).send("connected to the end point!")
     })
+
+    app.get('/', function(req, res) {
+        // user is not authenticated, POST /login request failed
+        if(USER_SESSION === undefined) {
+            return res.status(401).send()
+        }
+        // returns the page
+        return res.status(200).send("connected to the end point!")
+    })
+
 
 }
