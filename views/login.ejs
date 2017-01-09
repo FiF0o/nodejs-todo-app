@@ -11,7 +11,9 @@
 <div id="login">
     <h3>Login</h3>
     <a href="/register">register</a>
-    <form id="login_form" action="post">
+    <!-- action is where to post /login -->
+    <form id="login_form" action="login" method="post">
+        <!-- method defined here as request is done from the server -->
         <input type="text" name="username" placeholder="username" required />
         <input type="password" name="password" placeholder="password" required />
         <button id="login_button" type="submit">login</button>

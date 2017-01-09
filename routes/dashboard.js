@@ -25,7 +25,8 @@ router.get('/', function (req, res) {
 
 // test for post request with router
 router.post('/', function(req, res) {
-    console.log('/ BODY', req.body)
+    console.log('/ BODY', req.body.toto)
+    res.send('post req ok!')
 })
 
 

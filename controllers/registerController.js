@@ -28,14 +28,15 @@ module.exports = function(app) {
 
     app.post('/register', function(req, res) {
         console.log('body ', req.body)
-        // gets the details from the route
+        // gets the details from the body req headers with username and password fields
         var username = req.body.username
         var password = req.body.password
         //todo creates modules for models
-        // creates new user and assign the details of the route to the new user
+        // creates new user in the DB and assign the details from the body req headers to it
         var newUser = new UserModel()
         newUser.username = username
         newUser.password = password
+        //saves user in the DB
         newUser.save(function(err, newUser) {
             if(err) {
                 console.log(err)
@@ -55,6 +56,7 @@ module.exports = function(app) {
     /**
      * Authentication - Choosing POST request as we are creating credentials
     */
+    // post request triggered server side
     app.post('/login', function(req, res) {
         var isUserLogged = req.body.username
         var isCorrectPassword = req.body.password
@@ -63,10 +65,12 @@ module.exports = function(app) {
         UserModel.findOne({username: isUserLogged, password: isCorrectPassword}, function(err, user) {
             if(err) {
                 console.log(err)
-                return res.status(500).send()
+                //return res.status(500).send()
+                // can rerender page with errors
+                return res.status(500).send({ error: err })
             }
             if(!user) {
-                return res.status(404).send()
+                return res.status(404).send({ error: 'The user '+ user +' could not be found' })
             }
             // stores user in the session
             req.session.user = user
@@ -75,8 +79,8 @@ module.exports = function(app) {
 
             console.log('FOUND: ', user)
             console.log(USER_SESSION.username, ' is logged in')
-            return res.status(200).send()
-            // return res.redirect('/dashboard')
+            // return res.status(200).send()
+            return res.redirect(302, '/dashboard')
         })
     })
 

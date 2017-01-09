@@ -75,10 +75,10 @@ module.exports = function(app) {
     //todo fix routing and make validation for items not be empty strings
     app.delete('/todo/:item', function(req, res) {
         // deletes the requested item from DB - replaces hyphens with a space in the routes
-        ToDoModel.find({item: req.params.item.replace(/\-/g, " ")}).remove(function(err, data) {
+        ToDoModel.find({item: req.params.item.replace(/\-/g, " ")}).remove(function(err, updatedTodos) {
             if (err) throw err
             // sends data back to the DB
-            res.json(data)
+            res.json(updatedTodos)
         })
     })
 
