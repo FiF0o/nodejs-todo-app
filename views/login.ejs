@@ -18,6 +18,13 @@
         <input type="password" name="password" placeholder="password" required />
         <button id="login_button" type="submit">login</button>
     </form>
+    <div>
+        <% if(error){ %>
+        <h1><%= error %></h1>
+        <% } else{ %>
+        <h1>bar</h1>
+        <% } %>
+    </div>
 </div>
 <script
         src="https://code.jquery.com/jquery-1.12.4.js"

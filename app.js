@@ -28,6 +28,9 @@ var secret = require('./config/tokens/secret')
 
 // creates server
 var app = express()
+console.log('+++++++++++++++LOCALS+++++++++++++++')
+console.log(app.locals)
+console.log('++++++++++++++++++++++++++++++++++++')
 
 
 // set up view engine for server-side rendering using ejs templating
@@ -94,4 +97,6 @@ registerController(app)
 
 // listen to port
 app.listen(PORT)
+console.log('')
+console.log('')
 console.log('You are listening to port: ' + PORT)

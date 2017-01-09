@@ -70,7 +70,8 @@ module.exports = function(app) {
                 return res.status(500).send({ error: err })
             }
             if(!user) {
-                return res.status(404).send({ error: 'The user '+ user +' could not be found' })
+                //rerenders page to let the user know the user does not exist in the DB
+                return res.status(404).render('login', { error: 'The user could not be found' })
             }
             // stores user in the session
             req.session.user = user
