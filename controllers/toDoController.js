@@ -1,16 +1,9 @@
 /**
  * Created by jonlazarini on 05/01/17.
  */
-var bodyParser = require('body-parser')
+// var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 
-/**
- * Connects to the DB
- * with user
- * mongodb://<dbuser>:<dbpassword>@ds135818.mlab.com:35818/nodejs-todo-app
- */
-var creds = require('../config/tokens/creds')
-mongoose.connect('mongodb://'+ creds.user +':'+ creds.password + '@ds135818.mlab.com:35818/nodejs-todo-app')
 
 /**
  * Creates a Schema - data blueprint
@@ -32,7 +25,7 @@ var ToDoModel = mongoose.model('ToDoModel', ToDoSchema)
 
 
 // middleware to run in post request to parse the request data from the client-side
-var urlencodedParser = bodyParser.urlencoded({extended: false})
+// var urlencodedParser = bodyParser.urlencoded({extended: false})
 
 // stub for ajax requests, should come from the client side when submitting forms - see item obj in main.js
 // var data = [

@@ -9,6 +9,7 @@ var morgan = require('morgan')
 var session = require('express-session')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
+var mongoose = require('mongoose')
 
 // routes
 var dashboard = require('./routes/dashboard')
@@ -21,7 +22,7 @@ var registerController = require('./controllers/registerController')
 /**
  * app config
  * */
-var PORT = 3000
+var PORT = 3005
 var VIEWS = 'views'
 var staticFiles = 'public'
 var secret = require('./config/tokens/secret')
@@ -32,6 +33,16 @@ console.log('+++++++++++++++LOCALS+++++++++++++++')
 console.log(app.locals)
 console.log('++++++++++++++++++++++++++++++++++++')
 
+
+/**
+ * Connects to the DB
+ * with user
+ * mongodb://<dbuser>:<dbpassword>@ds135818.mlab.com:35818/nodejs-todo-app
+ */
+var creds = require('./config/tokens/creds')
+mongoose.connect('mongodb://'+ creds.user +':'+ creds.password + '@ds135818.mlab.com:35818/nodejs-todo-app')
+
+var db = mongoose.connection
 
 // set up view engine for server-side rendering using ejs templating
 app.set('views', path.join(__dirname, VIEWS))
