@@ -25,7 +25,7 @@ var registerController = require('./controllers/registerController')
 var PORT = 3005
 var VIEWS = 'views'
 var staticFiles = 'public'
-var secret = require('./config/tokens/secret')
+// var secret = require('./config/tokens/secret')
 
 // creates server
 var app = express()
@@ -39,8 +39,9 @@ console.log('++++++++++++++++++++++++++++++++++++')
  * with user
  * mongodb://<dbuser>:<dbpassword>@ds135818.mlab.com:35818/nodejs-todo-app
  */
-var creds = require('./config/tokens/creds')
-mongoose.connect('mongodb://'+ creds.user +':'+ creds.password + '@ds135818.mlab.com:35818/nodejs-todo-app')
+// var creds = require('./config/tokens/creds')
+// mongoose.connect('mongodb://'+ creds.user +':'+ creds.password + '@ds135818.mlab.com:35818/nodejs-todo-app')
+mongoose.connect('mongodb://'+ process.env.MGDB_USER +':'+ process.env.MGDB_PW + '@ds135818.mlab.com:35818/nodejs-todo-app')
 
 var db = mongoose.connection
 
@@ -60,7 +61,8 @@ app.use(morgan('dev'))
 app.use(cookieParser())
 // registers session to our app to persists data
 app.use(session({
-    secret: secret.session,
+    // secret: secret.session,
+    secret: process.env.SECRET_SESS,
     resave: false,
     saveUninitialized: true
 }))

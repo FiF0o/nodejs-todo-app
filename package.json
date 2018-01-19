@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "deploy": "now -e MGDB_USER=@mgdbuser -e MGDB_PW=@mgdbpw -e SECRET_SESS=secretsess",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
