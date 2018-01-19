@@ -1,3 +1,4 @@
 config/tokens/**/*.js
 .idea/
 node_modules
+.history
